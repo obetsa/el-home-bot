@@ -18,6 +18,14 @@ PING_COUNT = int(os.getenv("PING_COUNT", 1))
 INTERVAL = int(os.getenv("INTERVAL", 10))
 HISTORY_LIMIT = int(os.getenv("HISTORY_LIMIT", 5))
 
+# TZ added in .env
+
+DEFAULT_HISTORY = Path(__file__).parent / "data" / "history.log"
+HISTORY_FILE = Path(
+    os.getenv("HISTORY_FILE", DEFAULT_HISTORY)
+)
+HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+
 if not BOT_TOKEN or not CHAT_ID or not HOST:
     raise RuntimeError("BOT_TOKEN, CHAT_ID, HOST must be set in .env")
 
@@ -87,9 +95,9 @@ async def monitor():
 
             message = (
                 f"⚡ Electricity status changed\n"
-                f"From: {status_text(last_status) if last_status else 'N/A'}\n"
+                #f"From: {status_text(last_status) if last_status else 'N/A'}\n"
                 f"Duration: {duration}\n"
-                f"To: {status_text(current_status)}"
+                f"Now: {status_text(current_status)}"
             )
 
             await send_message(message)
@@ -99,6 +107,9 @@ async def monitor():
                 f"Duration: {duration}"
             )
             history[:] = history[-HISTORY_LIMIT:]
+
+            with open(HISTORY_FILE, "a", encoding="utf-8") as f:
+                f.write(f"{now:%d.%m.%Y [%H:%M]} : {status_text(current_status)}\n")
 
             last_status = current_status
             status_since = now

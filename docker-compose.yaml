@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  electricity-bot:
+    image: obetsa/el-home-bot:latest
+    container_name: el-home-bot-bot
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./data:/data
+
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "ping_bot.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 3

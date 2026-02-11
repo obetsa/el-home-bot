@@ -11,8 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ping_bot.py .
 
 # history буде тут
-VOLUME ["/data"]
+RUN mkdir -p /data
 
+ENV HISTORY_FILE=/data/history.log
 ENV PYTHONUNBUFFERED=1
+
+VOLUME ["/data"]
 
 CMD ["python", "ping_bot.py"]

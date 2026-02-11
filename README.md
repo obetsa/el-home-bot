@@ -7,8 +7,11 @@ and notifies about status changes.
 - 🔋 Electricity ON / 🪫 Electricity OFF notifications
 - `/status` — current status and duration
 - `/history` — recent status changes
+- history.log data file
+- TZ
 - Environment-based configuration
 - Docker-ready
+- Docker-compose ready
 
 ## Setup
 
