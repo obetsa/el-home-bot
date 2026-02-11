@@ -3,7 +3,7 @@ version: "3.9"
 services:
   electricity-bot:
     image: obetsa/el-home-bot:latest
-    container_name: el-home-bot-bot
+    container_name: el-home-bot
     restart: unless-stopped
 
     env_file:
